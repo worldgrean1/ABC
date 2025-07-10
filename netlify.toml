@@ -1,25 +1,27 @@
-# Netlify configuration for Grean Energy Next.js application
+# ✅ Netlify configuration for Green Energy Next.js app (plugin mode)
+
 [build]
   base = "."
   command = "npm run netlify:build"
-  publish = ".netlify/output/public"
+  publish = ".next"
 
   [build.environment]
     NODE_VERSION = "18.20.4"
     NPM_VERSION = "9.8.1"
     NODE_ENV = "production"
     NEXT_TELEMETRY_DISABLED = "1"
-    # Disable bundle analyzer for production builds
     ANALYZE = "false"
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
+# ✅ API routes handled by Netlify Functions
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
 
+# ✅ Security headers
 [[headers]]
   for = "/*"
   [headers.values]
@@ -27,9 +29,9 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    # ⚠️ Consider removing 'unsafe-eval' for better security
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://my.spline.design https://prod.spline.design; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://my.spline.design https://prod.spline.design; media-src 'self' data:; object-src 'none'; frame-src 'self' https://my.spline.design;"
 
+# ✅ Cache headers for static assets
 [[headers]]
   for = "/static/*"
   [headers.values]
